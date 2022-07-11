@@ -1,0 +1,58 @@
+{% extends 'home/base.html' %}
+{% block title %}Products{% endblock %}
+{% block productsstatus%}active{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-3">
+        <h5 class="display-6 text-center">Add Product</h5>
+        <hr>
+        <form action="/products/" method="post">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" name='name' placeholder="Name" value="{{ product.name }}" required>
+                <label for="name" class="form-label">Product Name: </label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="price" name='price' placeholder="Price" value="{{ product.price }}"required>
+                <label for="price" class="form-label">Product Price: </label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="stocks" name='stocks' placeholder="Stock" value="{{ product.stocks }}"required>
+                <label for="stocks" class="form-label">Available Stock: </label>
+              </div>
+              {% if product != None %}
+                  <button type="submit" class="btn btn-warning">Edit Product</button>
+              {% else %}
+                  <button type="submit" class="btn btn-primary">Add Product</button>
+            {% endif %}
+            </form>
+    </div>
+    <div class="col-md-6">
+        <h5 class="display-6 text-center">Products List</h5>
+        <hr>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Stocks</th>
+                    <th scope="col">#</th>
+                </tr>    
+            </thead>
+            <tbody>
+                {% for product in products%}
+                <tr>
+                    <td scope="row">{{ product.name }}</td>
+                    <td scope="row">{{ product.price }}</td>
+                    <td scope="row">{{ product.stocks }}</td>
+                    <td scope="row">
+                        <a href="/products/{{ product.id }}/edit" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="/products/{{ product.id }}/delete" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
+                    </td>
+                </tr>    
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
