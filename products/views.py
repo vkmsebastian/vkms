@@ -10,21 +10,33 @@ def index(request, id=None):
     products = Product.objects.order_by('name')
     if request.method == 'POST':
         form = ProductForm(request.POST)
-        if form.is_valid(): 
-            name = form.cleaned_data['name']
-            price = form.cleaned_data['price']
-            stocks = form.cleaned_data['stocks']
-            pub_date = timezone.now()
-            Product(name=name, price=price, stocks=stocks, pub_date=pub_date).save()
+        if form.is_valid():
+            form.save()
+        
         
         return HttpResponseRedirect('')
 
-    else:
-         if id != None:
-            products = Product.objects.order_by('name')
-            product = Product.objects.get(id=id)
-            print(request.method)
-            # return HttpResponseRedirect('/products', {'products': products, 'product':product})
-            return render(request, 'products/index.html', {'products': products, 'product':product})
+    elif id != None:
+        product = Product.objects.get(id=id)
+        form = ProductForm(instance=product)
+        return render(request, 'products/index.html', {'products': products, 'form': form, 'id': id})
+    
+    form = ProductForm()
+    return render(request, 'products/index.html', {'products': products, 'form': form})
 
-    return render(request, 'products/index.html', {'products': products})
+
+
+def update(request, id=None):
+    if id != None:
+        product = Product.objects.get(pk=id)
+        form = ProductForm(request.POST, instance=product)
+        form.save()
+        
+    return HttpResponseRedirect('/products')
+
+
+def delete(request, id=None):
+    if id != None:
+        Product(id).delete()
+
+    return HttpResponseRedirect('/products')

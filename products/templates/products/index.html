@@ -6,22 +6,29 @@
     <div class="col-md-3">
         <h5 class="display-6 text-center">Add Product</h5>
         <hr>
-        <form action="/products/" method="post">
+        <form action="{% url 'products_index' %}" method="post">
             {% csrf_token %}
+            {{ form.non_field_errors }}
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="name" name='name' placeholder="Name" value="{{ product.name }}" required>
-                <label for="name" class="form-label">Product Name: </label>
+                {{ form.name.errors}}
+                <input type="text" class="form-control" id="{{ form.name.id_for_label }}" name='name' placeholder="Name" 
+                value="{% if form.name.value != None %}{{ form.name.value }}{% endif %}" required>
+                <label for="{{ form.name.id_for_label }}" class="form-label">Product Name: </label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="price" name='price' placeholder="Price" value="{{ product.price }}"required>
-                <label for="price" class="form-label">Product Price: </label>
+                {{ form.price.errors }}
+                <input type="text" class="form-control" id="{{ form.price.id_for_label }}" name='price' placeholder="Price" 
+                value="{% if form.price.value != None %}{{ form.price.value }}{% endif %}" required>
+                <label for="{{ form.price.id_for_label }}" class="form-label">Product Price: </label>
               </div>
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="stocks" name='stocks' placeholder="Stock" value="{{ product.stocks }}"required>
-                <label for="stocks" class="form-label">Available Stock: </label>
+                {{ form.stocks.errors }}
+                <input type="text" class="form-control" id="{{ form.stocks.id_for_label }}" name='stocks' placeholder="Stock" 
+                value="{% if form.stocks.value != None %}{{ form.stocks.value }}{% endif %}" required>
+                <label for="{{ form.stocks.id_for_label }}" class="form-label">Available Stock: </label>
               </div>
-              {% if product != None %}
-                  <button type="submit" class="btn btn-warning">Edit Product</button>
+              {% if form.name.value != None %}
+                  <button type="submit" formaction="{% url 'products_update' id %}" class="btn btn-warning">Edit Product</button>
               {% else %}
                   <button type="submit" class="btn btn-primary">Add Product</button>
             {% endif %}
@@ -46,12 +53,15 @@
                     <td scope="row">{{ product.price }}</td>
                     <td scope="row">{{ product.stocks }}</td>
                     <td scope="row">
-                        <a href="/products/{{ product.id }}/edit" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="/products/{{ product.id }}/delete" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
+                        <a href="{% url 'products_edit' product.id %}" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{% url 'products_delete' product.id %}" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
                     </td>
-                </tr>    
+                </tr> 
+                {% empty %}   
+                <caption>There are currently no listed products.</caption>
+                {% endfor %}
+
             </tbody>
-            {% endfor %}
         </table>
     </div>
 </div>

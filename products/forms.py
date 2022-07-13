@@ -1,7 +1,7 @@
-from email.policy import default
-from django import forms
+from django.forms import ModelForm
+from products.models import Product
 
-class ProductForm(forms.Form):
-    name = forms.CharField(label="Product Name", max_length=50)
-    price = forms.IntegerField(label="Product Price: ")
-    stocks = forms.IntegerField(label="Product Stocks: ", initial=1)
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'price', 'stocks']

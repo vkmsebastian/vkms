@@ -22,7 +22,7 @@
                         <a href="/" class="nav-link {% block homestatus %}{% endblock %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/products" class="nav-link {% block productsstatus %}{% endblock %} ">Products</a>
+                        <a href="{% url 'products_index' %}" class="nav-link {% block productsstatus %}{% endblock %} ">Products</a>
                     </li>
                     <li class="nav-item">
                         <a href="/about" class="nav-link {% block aboutstatus %}{% endblock %}">About</a>
