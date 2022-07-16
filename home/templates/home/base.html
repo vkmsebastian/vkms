@@ -21,9 +21,11 @@
                     <li class="nav-item">
                         <a href="/" class="nav-link {% block homestatus %}{% endblock %}">Home</a>
                     </li>
+                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a href="{% url 'products_index' %}" class="nav-link {% block productsstatus %}{% endblock %} ">Products</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a href="/about" class="nav-link {% block aboutstatus %}{% endblock %}">About</a>
                     </li>
