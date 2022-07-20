@@ -4,31 +4,9 @@
 {% block brand %}Van Kaizer Sebastian {% endblock %}
 {% block homestatus%}active{% endblock %}
 {% block content%}
-This is the index page
-<!-- <div class="container">
-    <div class="row mt-2">
-        <div class="col-0 col-xxl"></div>
-        <div class="col">
-            <div class="card align-items-start">
-                <div class="card-body">
-                    <h1 class="card-title">Login</h1>
-                <form action="" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username: </label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password: </label>
-                    <input type="password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary" formaction="/login">Login</button>
-                <button type="submit" class="btn btn-secondary" formaction="/register">Register</button>
-                </div>
-            </form>
-            </div>
-        </div>
-        <div class="col-xxl"></div>
-    </div>
-</div> -->
+{% if user.is_authenticated %}
+Welcome, {{user.username}}, to the Index Page
+{% else %}
+This is the Index Page
+{% endif %}
 {% endblock%}

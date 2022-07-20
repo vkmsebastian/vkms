@@ -1,12 +1,13 @@
-from time import timezone
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import Product
 from .forms import ProductForm
 
+@login_required(login_url='/')
 def index(request, id=None):
     products = Product.objects.order_by('name')
     form = ProductForm()
