@@ -1,51 +1,70 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.paginator import Paginator
 
 from .models import Product
 from .forms import ProductForm
 
+
 @login_required(login_url='/login')
-def index(request, id=None):
-    products = Product.objects.order_by('name')
-    
+def index(request, id=None, page=1):
     form = ProductForm()
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save() 
-            return HttpResponseRedirect('')
+            form = ProductForm()
+            page = request.POST.get('page')
 
-    elif id != None:
+    elif request.method == 'GET' and id != None:
         product = Product.objects.get(id=id)
         form = ProductForm(instance=product)
-        return render(request, 'products/index.html', {'products': products, 'form': form, 'id': id})
-    
-    paginator = Paginator(products, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'products/index.html', {'products': page_obj, 'form': form})
+
+    page_obj = getProducts(page=page)
+    return render(request, 'products/index.html', {'products': page_obj, 'form': form, 'id': id})
 
 
 
-def update(request, id=None):
+def update(request, id=None, page=1):
+    page_obj = getProducts(page=page)
+
     if id != None:
         product = Product.objects.get(pk=id)
         form = ProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/products')
+            return render(request, 'products/index.html', {'products': page_obj, 'form': form, 'id': id})
+
         else:
             products = Product.objects.order_by('name')
-            return render(request, 'products/index.html', {'products': products, 'form': form, 'id': id})
+            form = ProductForm()
+            return render(request, 'products/index.html', {'products': page_obj, 'form': form, 'id': id})
 
 
 
-def delete(request, id=None):
+def delete(request, id=None, page=1):
+    page_obj = getProducts(page=page)
     if id != None:
         Product(id).delete()
 
-    return HttpResponseRedirect('/products')
+    form = ProductForm()
+    return render(request, 'products/index.html', {'products': page_obj, 'form': form})
+
+
+def getProducts(page, keyword=""):
+    products = Product.objects.order_by('name')
+    paginator = Paginator(products, 10)
+    return(paginator.get_page(page))
+
+def filter(request):
+    keyword = request.POST['keyword']
+    if len(keyword) > 0:
+        page_obj = Product.objects.filter(name__icontains=keyword)[:10]
+    else:
+        page_obj = Product.objects.order_by('name')[:10]
+    ser_page_obj = serializers.serialize('json', page_obj)
+    return JsonResponse({"ser_page_obj": ser_page_obj}, status = 200)

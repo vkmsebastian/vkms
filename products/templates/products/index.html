@@ -41,8 +41,9 @@
                                 </div>
                             {% endif %}
                           </div>
+                          <input type="hidden" name="page" value="{{ products.number }}">
                           {% if id != None %}
-                              <button type="submit" formaction="{% url 'products_update' id %}" class="btn btn-warning">Edit Product</button>
+                              <button type="submit" formaction="{% url 'products_update' id products.number %}" class="btn btn-warning">Edit Product</button>
                           {% else %}
                               <button type="submit" class="btn btn-outline-primary">Add Product</button>
                         {% endif %}
@@ -54,8 +55,11 @@
                 <div class="card border-secondary">
                     <div class="card-body">
                       <h5 class="card-title display-6 text-center">Filter Products</h5><hr>
-                      <input type="text" name="search" class="form-control mb-2" placeholder="Search">
-                      <input type="button" value="Clear" class="btn btn-outline-secondary">
+                      <form>
+                        
+                        <input type="text" name="filter" id="filter" onkeyup="getFilter()" class="form-control mb-2" placeholder="Search">
+                        <input type="button" value="Clear" class="btn btn-outline-secondary" onclick="clearFilter()">
+                      </form>
                     </div>
                   </div>
 
@@ -66,7 +70,7 @@
             <div class="card-body">
                 <h5 class="card-title display-6 text-center">Products List</h5>
                 <hr>
-                <table class="table table-hover">
+                <table class="table table-hover" id="productsTable">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
@@ -75,15 +79,15 @@
                             <th scope="col">#</th>
                         </tr>    
                     </thead>
-                    <tbody>
+                    <tbody id="productsTBody">
                         {% for product in products%}
                         <tr>
                             <td scope="row">{{ product.name }}</td>
                             <td scope="row">{{ product.price }}</td>
                             <td scope="row">{{ product.stocks }}</td>
                             <td scope="row">
-                                <a href="{% url 'products_edit' product.id %}" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="{% url 'products_delete' product.id %}" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
+                                <a href="{% url 'products_edit' product.id products.number %}" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{% url 'products_delete' product.id products.number %}" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
                             </td>
                         </tr> 
                         {% empty %}   
@@ -91,11 +95,11 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <div class="pagination justify-content-center">
+                <div class="pagination justify-content-center" id="pagination">
                     <span class="step-links">
                         {% if products.has_previous %}
-                            <a href="?page=1"><i class="fa-solid fa-backward-fast"></i></a>
-                            <a href="?page={{ products.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
+                            <a href="/products/1"><i class="fa-solid fa-backward-fast"></i></a>
+                            <a href="/products/{{ products.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
                         {% endif %}
                 
                         <span class="current">
@@ -103,8 +107,8 @@
                         </span>
                 
                         {% if products.has_next %}
-                            <a href="?page={{ products.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
-                            <a href="?page={{ products.paginator.num_pages }}"><i class="fa-solid fa-forward-fast"></i></a>
+                            <a href="/products/{{ products.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
+                            <a href="/products/{{ products.paginator.num_pages }}"><i class="fa-solid fa-forward-fast"></i></a>
                         {% endif %}
                     </span>
                 </div>
@@ -114,3 +118,53 @@
     </div>
 </div>
 {% endblock %}
+{% block javascript %}
+<script>
+    function getFilter(){
+        filterElement = document.getElementById('filter');
+        filterValue = filterElement.value.toLowerCase();
+        clearTable();
+        url = "{% url 'products_filter' %}"
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value, keyword: filterValue},
+            success: function(result){
+                products = JSON.parse(result['ser_page_obj']);
+                console.log(products);
+                products.forEach(addToTable);
+            }
+        });
+        
+    }
+
+    function clearFilter(){
+        filterElement = document.getElementById('filter');
+        filterElement.value = "";
+        getFilter();
+    }
+
+    function clearTable(){
+        table = document.getElementById('productsTable');
+        tbody = document.getElementById('productsTBody');
+        pagination = document.getElementById('pagination');
+        tbody.innerHTML = "";
+        pagination.innerHTML = "";
+    }
+
+    function addToTable(obj, index, array){
+        tbody = document.getElementById('productsTBody');
+        tbody.innerHTML += 
+            `<tr>
+                <td scope="row">${obj.fields.name}</td>
+                <td scope="row">${obj.fields.price}</td>
+                <td scope="row">${obj.fields.stocks}</td>
+                <td scope="row">
+                    <a href="${obj.pk}/edit/1" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="${obj.pk}/delete/1" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
+                </td>
+            </tr>`
+    }
+</script>
+{% endblock %}
+
