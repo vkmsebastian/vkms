@@ -7,9 +7,9 @@ class ProductForm(ModelForm):
         fields = ['name', 'price', 'stocks']
 
     
-    def clean(self):
-        cleaned_data = super().clean()
-        name = cleaned_data.get('name')
-        if Product.objects.filter(name__iexact=name):
-            error = ValidationError("Product name already exists!")
-            self.add_error('name', error)
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     name = cleaned_data.get('name')
+    #     if Product.objects.filter(name__iexact=name):
+    #         error = ValidationError("Product name already exists!")
+    #         self.add_error('name', error)

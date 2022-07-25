@@ -43,9 +43,9 @@
                           </div>
                           <input type="hidden" name="page" value="{{ products.number }}">
                           {% if id != None %}
-                              <button type="submit" formaction="{% url 'products_update' id products.number %}" class="btn btn-warning">Edit Product</button>
+                              <button type="submit" formaction="{% url 'products_update' id products.number %}" class="btn text-dark btn-outline-warning">Save</button>
                           {% else %}
-                              <button type="submit" class="btn btn-outline-primary">Add Product</button>
+                              <button type="submit" class="btn btn-outline-primary">Save</button>
                         {% endif %}
                         </form>
                 </div>
@@ -99,7 +99,7 @@
                     <span class="step-links">
                         {% if products.has_previous %}
                             <a href="/products/1"><i class="fa-solid fa-backward-fast"></i></a>
-                            <a href="/products/{{ products.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
+                            <a href="/products/{{ products.previous_page_number }}"><i class="mx-3 fa-solid fa-backward-step"></i></a>
                         {% endif %}
                 
                         <span class="current">
@@ -107,7 +107,7 @@
                         </span>
                 
                         {% if products.has_next %}
-                            <a href="/products/{{ products.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
+                            <a href="/products/{{ products.next_page_number }}"><i class="mx-3 fa-solid fa-forward-step"></i></a>
                             <a href="/products/{{ products.paginator.num_pages }}"><i class="fa-solid fa-forward-fast"></i></a>
                         {% endif %}
                     </span>
@@ -161,8 +161,8 @@
                 <td scope="row">${obj.fields.price}</td>
                 <td scope="row">${obj.fields.stocks}</td>
                 <td scope="row">
-                    <a href="${obj.pk}/edit/1" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="${obj.pk}/delete/1" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
+                    <a href="/products/${obj.pk}/edit/1" class="link-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="/products/${obj.pk}/delete/1" class="link-danger"><i class="fa-solid fa-eraser"></i></a>
                 </td>
             </tr>`
     }
