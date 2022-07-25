@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user, get_user
@@ -7,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
-    return render(request, 'home/index.html')
+    return render(request, 'home/index_home.html')
 
 def login(request):
     if request.method == 'POST':
@@ -18,11 +19,11 @@ def login(request):
             login_user(request, user)
             return HttpResponseRedirect('/')
         else:
-            return render(request, 'home/login.html', {'error': "Invalid username/password"})
+            return render(request, 'home/index_login.html', {'error': "Invalid username/password"})
     
     else:
         if get_user(request).is_authenticated is False:
-            return render(request, 'home/login.html')
+            return render(request, 'home/index_login.html')
         else:
             return HttpResponseRedirect('/')
 
@@ -32,8 +33,11 @@ def logout(request):
 
 
 def register(request):
-    if request.method == 'GET':
-        return render(request, 'home/register.html')
+    if get_user(request).is_authenticated:
+        return HttpResponseRedirect('/')
+
+    elif request.method == 'GET':
+        return render(request, 'home/index_register.html')
     
     elif request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -44,8 +48,9 @@ def register(request):
                 login_user(request, user)
                 return HttpResponseRedirect('/')
 
-        return render(request, 'home/register.html', {'form': form})
+        return render(request, 'home/index_register.html', {'form': form})
 
-        
+def about(request):
+    return render(request, 'home/index_about.html')
             
 

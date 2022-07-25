@@ -1,0 +1,12 @@
+{% extends 'home/index.html' %}
+{% block cardhome %}active{% endblock %}
+{% block card %}
+<h5 class="card-title">Home</h5>
+{% if user.is_authenticated %}
+    <p class="card-text">Welcome, {{user}}.</p>
+{% else %}
+    <p class="class-text">
+        You are currently not logged in. <br>Login to access the full website
+    </p>
+{% endif %}
+{% endblock %}

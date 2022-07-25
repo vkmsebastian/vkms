@@ -1,20 +1,14 @@
-{% extends 'home/base.html' %}
-
+{% extends 'home/index.html' %}
+{% block cardlogin %}active{% endblock %}
 {% block title %}Login Page{% endblock %}
 {% block loginstatus%}active{% endblock %}
-{% block content%}
-<div class="container">
-    <div class="row mt-2">
-        <div class="col-0 col-xxl"></div>
-        <div class="col">
-            <div class="card align-items-start">
-                <div class="card-body">
-                    <h1 class="card-title">Login</h1>
+{% block card %}
+                <h5 class="card-title">Login</h5>
                 <form action="" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="username" class="form-label">Username: </label>
-                    <input type="text" class="form-control {% if error %}is-invalid{% endif %}" name="username" autofocus required>
+                    <input type="text" class="form-control {% if error %}is-invalid{% endif %}" name="username" required>
                     <div class="invalid-feedback">
                         {{error}}
                     </div>
@@ -25,12 +19,6 @@
                 </div>
                 
                 <button type="submit" class="btn btn-primary" formaction="login">Login</button>
-                <a href="register" class="btn btn-secondary">Register</a>
-                </div>
+                
             </form>
-            </div>
-        </div>
-        <div class="col-xxl"></div>
-    </div>
-</div>
 {% endblock %}

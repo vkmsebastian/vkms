@@ -1,15 +1,9 @@
-{% extends 'home/base.html' %}
-
+{% extends 'home/index.html' %}
+{% block cardregister %}active{% endblock %}
 {% block title %}Registration Page{% endblock %}
 {% block registerstatus%}active{% endblock %}
-{% block content%}
-<div class="container">
-    <div class="row mt-2">
-        <div class="col-0 col-xxl"></div>
-        <div class="col">
-            <div class="card align-items-start">
-                <div class="card-body">
-                    <h1 class="card-title">Register</h1>
+{% block card %}
+                <h5 class="card-title">Register</h5>
                 <form action="" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -38,11 +32,5 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary" formaction="{% url 'register' %}">Register</button>
-                </div>
             </form>
-            </div>
-        </div>
-        <div class="col-xxl"></div>
-    </div>
-</div>
 {% endblock %}
