@@ -1,26 +1,25 @@
 {% extends 'home/base.html' %}
 {% block title%}Home{% endblock %}
 {% block brand %}{% endblock %}
-{% block homestatus %}active{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-3 mt-3">
         <div class="card border-dark">
-            <div class="card-header bg-transparent">
+            <div class="card-header bg-secondary {% if user.is_authenticated %}bg-dark{% endif %}">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
-                        <a href="/" class="nav-link {% block cardhome %}{% endblock %}">Home</a>
+                        <a href="/" class="nav-link link-light {% block cardhome %}{% endblock %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'about' %}" class="nav-link {% block cardabout %}{% endblock %}">About</a>
+                        <a href="{% url 'about' %}" class="nav-link link-light {% block cardabout %}{% endblock %}">About</a>
                     </li>
                     {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="{% url 'login' %}" class="nav-link {% block cardlogin %}{% endblock %}">Login</a>
+                        <a href="{% url 'login' %}" class="nav-link link-light {% block cardlogin %}{% endblock %}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'register' %}" class="nav-link {% block cardregister %}{% endblock %}">Register</a>
+                        <a href="{% url 'register' %}" class="nav-link link-light {% block cardregister %}{% endblock %}">Register</a>
                     </li>
                     {% else%}
                         <li class="nav-item">
@@ -34,7 +33,7 @@
                 {% block card %}
                 {% endblock %}
             </div>
-            <div class="card-footer bg-transparent text-center">V.K. Sebastian | Django Project</div>
+            <div class="card-footer bg-dark"></div>
             
         </div>
     </div>

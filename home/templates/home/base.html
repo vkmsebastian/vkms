@@ -12,7 +12,7 @@
     <title>{%block title %}{% endblock %}</title>
 </head>
 <body>  
-    <nav class="navbar navbar-expand-lg bg-info">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary {% if user.is_authenticated %}bg-dark{% endif %}">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -27,9 +27,9 @@
                         <a href="{% url 'products_index' %}" class="nav-link {% block productsstatus %}{% endblock %} ">Products</a>
                     </li>
                     {% endif %}
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a href="/about" class="nav-link {% block aboutstatus %}{% endblock %}">About</a>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
             <div class="mx-auto">

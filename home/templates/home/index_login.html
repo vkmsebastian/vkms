@@ -1,9 +1,9 @@
 {% extends 'home/index.html' %}
-{% block cardlogin %}active{% endblock %}
+{% block cardlogin %}active link-dark{% endblock %}
 {% block title %}Login Page{% endblock %}
 {% block loginstatus%}active{% endblock %}
 {% block card %}
-                <h5 class="card-title">Login</h5>
+                <h1 class="card-title text-muted display-5">Login</h1>
                 <form action="" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -17,8 +17,7 @@
                     <label for="password" class="form-label">Password: </label>
                     <input type="password" class="form-control {% if error %}is-invalid{% endif %}" name="password" required>
                 </div>
-                
-                <button type="submit" class="btn btn-primary" formaction="login">Login</button>
+                <button type="submit" class="btn btn-outline-info text-dark" formaction="login">Login</button>
                 
             </form>
 {% endblock %}

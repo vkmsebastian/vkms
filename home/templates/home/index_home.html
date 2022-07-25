@@ -1,7 +1,9 @@
 {% extends 'home/index.html' %}
-{% block cardhome %}active{% endblock %}
+{% block cardhome %}active link-dark{% endblock %}
+{% block homestatus %}active{% endblock %}
+
 {% block card %}
-<h5 class="card-title">Home</h5>
+<h1 class="card-title text-muted display-5">Home</h1>
 {% if user.is_authenticated %}
     <p class="card-text">Welcome, {{user}}.</p>
 {% else %}
