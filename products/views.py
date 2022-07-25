@@ -65,6 +65,6 @@ def filter(request):
     if len(keyword) > 0:
         page_obj = Product.objects.filter(name__icontains=keyword)[:10]
     else:
-        page_obj = Product.objects.order_by('name')[:10]
+        page_obj = Product.objects.order_by('name   ')[:10]
     ser_page_obj = serializers.serialize('json', page_obj)
     return JsonResponse({"ser_page_obj": ser_page_obj}, status = 200)
