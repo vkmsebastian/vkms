@@ -123,13 +123,13 @@
     function getFilter(){
         filterElement = document.getElementById('filter');
         filterValue = filterElement.value.toLowerCase();
-        clearTable();
         url = "{% url 'products_filter' %}"
         $.ajax({
             url: url,
             type: "POST",
             data: {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value, keyword: filterValue},
             success: function(result){
+                clearTable();
                 products = JSON.parse(result['ser_page_obj']);
                 console.log(products);
                 products.forEach(addToTable);
@@ -145,7 +145,6 @@
     }
 
     function clearTable(){
-        table = document.getElementById('productsTable');
         tbody = document.getElementById('productsTBody');
         pagination = document.getElementById('pagination');
         tbody.innerHTML = "";
