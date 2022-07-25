@@ -33,7 +33,7 @@
                 {% block card %}
                 {% endblock %}
             </div>
-            <div class="card-footer bg-dark"></div>
+            <div class="card-footer bg-secondary {% if user.is_authenticated %}bg-dark{% endif %}"></div>
             
         </div>
     </div>
