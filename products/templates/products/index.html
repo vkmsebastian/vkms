@@ -129,9 +129,11 @@
             type: "POST",
             data: {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value, keyword: filterValue},
             success: function(result){
-                clearTable();
+                clearTable('');
                 products = JSON.parse(result['ser_page_obj']);
-                console.log(products);
+                if (products.length == 0){
+                    clearTable("<caption>There are no matching results.</caption>");
+                }
                 products.forEach(addToTable);
             }
         });
@@ -144,10 +146,10 @@
         getFilter();
     }
 
-    function clearTable(){
+    function clearTable(string){
         tbody = document.getElementById('productsTBody');
         pagination = document.getElementById('pagination');
-        tbody.innerHTML = "";
+        tbody.innerHTML = string;
         pagination.innerHTML = "";
     }
 
