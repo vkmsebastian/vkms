@@ -19,6 +19,7 @@ WORKDIR /app
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
 ARG UID=10001
+ADD requirements.txt
 RUN adduser \
     --disabled-password \
     --gecos "" \
