@@ -19,7 +19,7 @@ WORKDIR /app
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
 ARG UID=10001
-ADD requirements.txt /app
+COPY . .
 RUN adduser \
     --disabled-password \
     --gecos "" \
@@ -41,7 +41,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 USER appuser
 
 # Copy the source code into the container.
-COPY . .
+
 
 # Expose the port that the application listens on.
 EXPOSE 8000
