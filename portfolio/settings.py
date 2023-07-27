@@ -124,7 +124,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://vkms.herokuapp.com','https://*.127.0.0.1']
-
-import django_heroku
-django_heroku.settings(locals())
+CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1']
