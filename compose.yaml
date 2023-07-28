@@ -28,7 +28,7 @@ services:
 # a password of your choosing to it before running `docker compose up`.
     depends_on:
       db:
-        condition: service_healthy
+        # condition: service_healthy
   db:
     image: postgres:latest
     restart: always
@@ -46,11 +46,11 @@ services:
       - 5432
     ports:
       - "5432:5432"
-    healthcheck:
-      test: [ "CMD", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: [ "CMD", "pg_isready" ]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
 volumes:
   db-data:
   static_volume:
