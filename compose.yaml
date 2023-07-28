@@ -8,18 +8,6 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-  server:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
-    ports:
-      - 8000:8000
-    volumes:
-      - .:/app
-      # - static_volume:/app/staticfiles
-    depends_on:
-      db:
-        condition: service_healthy
   db:
     image: postgres:latest
     restart: always
@@ -36,6 +24,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      
+  server:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+      # - static_volume:/app/staticfiles
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   db-data:
   static_volume:
