@@ -24,10 +24,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      
+
   server:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
     # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
     ports:
       - 8000:8000
