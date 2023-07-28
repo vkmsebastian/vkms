@@ -48,5 +48,4 @@ EXPOSE 8000
 
 # Run the application.
 # CMD gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
-CMD python manage.py migrate
-CMD python manage.py runserver 0.0.0.0:8000
+# CMD python manage.py runserver 0.0.0.0:8000

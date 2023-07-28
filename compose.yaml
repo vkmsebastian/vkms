@@ -10,6 +10,7 @@
 services:
   db:
     image: postgres:latest
+    command: python manage.py migrate
     restart: always
     volumes:
       - db-data:/var/lib/postgresql/data
@@ -27,7 +28,7 @@ services:
 
   server:
     build: .
-    # command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
     ports:
       - 8000:8000
