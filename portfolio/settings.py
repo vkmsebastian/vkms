@@ -133,4 +133,4 @@ STATIC_ROOT = 'app/staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1', 'https://vkms1-vkaizn.b4a.run']
