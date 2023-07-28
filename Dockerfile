@@ -47,4 +47,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD gunicorn 'vkms.wsgi:application' --bind=0.0.0.0:8000
+CMD gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
