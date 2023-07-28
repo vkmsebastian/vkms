@@ -35,6 +35,12 @@ RUN adduser \
 ADD requirements.txt /app/
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    python3-dev \
+    build-essential \
+    libpq-dev \
+    netcat && \
     python -m pip install -r requirements.txt
 
 # Switch to the non-privileged user to run the application.
