@@ -14,20 +14,20 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=vkms_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: vkms_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
-    healthcheck:
-      test: [ "CMD", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: [ "CMD", "pg_isready" ]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
 
   server:
     build: .
-    # command: python manage.py runserver 0.0.0.0:8000
+    # command: "python manage.py migrate"
     # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
     ports:
       - 8000:8000
@@ -35,8 +35,8 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+        # condition: service_healthy
 volumes:
   db-data:
   static_volume:

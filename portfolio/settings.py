@@ -82,7 +82,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vkms_db',
+        'NAME': "vkms_db",
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',  # Replace with the hostname of your PostgreSQL container in production.
@@ -126,7 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = 'app/staticfiles'
+STATIC_ROOT = '/app/staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
