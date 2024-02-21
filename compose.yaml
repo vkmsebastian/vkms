@@ -27,7 +27,7 @@ services:
 
   server:
     build: .
-    command: "python manage.py collectstatic"
+    # command: "python manage.py collectstatic"
     # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
     ports:
       - 8000:8000
