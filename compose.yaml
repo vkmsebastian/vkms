@@ -33,7 +33,7 @@ services:
       - 8000:8000
     volumes:
       - .:/app
-      - static_volume:/app/staticfiles
+      - static_volume:/app/static
     depends_on:
       - db
         # condition: service_healthy
