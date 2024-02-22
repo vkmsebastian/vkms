@@ -19,11 +19,11 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
-    # healthcheck:
-    #   test: [ "CMD", "pg_isready" ]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
@@ -34,8 +34,8 @@ services:
       # - .:/app
       - static_volume:/app/staticfiles
     depends_on:
-      - db
-        # condition: service_healthy
+        db:
+          condition: service_healthy
 
   nginx:
     build:
