@@ -8,17 +8,17 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-  # db:
-  #   image: postgres:latest
-  #   restart: always
-  #   volumes:
-  #     - db-data:/var/lib/postgresql/data
-  #   environment:
-  #     POSTGRES_DB: vkms_db
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - 5432:5432
+  db:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: vkms_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
     # healthcheck:
     #   test: [ "CMD", "pg_isready" ]
     #   interval: 10s
@@ -27,30 +27,30 @@ services:
 
   web:
     build: .
-    # command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
+    command: gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
     expose:
       - 8000
-    volumes:
+    # volumes:
       # - .:/app
-      - static_volume:/app/staticfiles
+      # - static_volume:/app/static
     depends_on:
         - db
           # condition: service_healthy
 
-  # nginx:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.nginx
-  #   ports:
-  #     - 1337:80
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
-  #     - static_volume:/app/staticfiles
-  #   depends_on:
-  #     - web
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - 1337:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # - static_volume:/app/static
+    depends_on:
+      - web
 volumes:
   db-data:
-  static_volume:
+  # static_volume:
 # secrets:
 #   db-password:
 #     file: db/password.txt

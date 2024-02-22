@@ -35,7 +35,7 @@ WORKDIR /app
 ADD requirements.txt /app/
 RUN python -m pip install -r requirements.txt
 
-RUN mkdir /app/staticfiles/
+RUN mkdir /app/static/
 
 
 # Switch to the non-privileged user to run the application.
@@ -47,8 +47,7 @@ COPY . .
 RUN python manage.py collectstatic --noinput
 
 # Expose the port that the application listens on.
-EXPOSE 8000
+# EXPOSE 8000
 
 # Run the application.
-CMD gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
-# CMD python manage.py runserver 0.0.0.0:8000
+# CMD gunicorn 'portfolio.wsgi:application' --bind=0.0.0.0:8000
